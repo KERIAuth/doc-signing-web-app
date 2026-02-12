@@ -21,12 +21,12 @@ verifier server start --config-dir scripts --config-file verifier-config-rootsid
 For example config files, see [here](https://github.com/GLEIF-IT/vlei-verifier/tree/main/scripts/keri/cf). You can use these config files as they are or configure one as needed.
 
 
-Or from docker-compose with:
+Or from docker compose with:
 
 ```
-docker-compose build --no-cache
-docker-compose down
-docker-compose up deps
+docker compose build --no-cache
+docker compose down
+docker compose up deps
 ```
 
 ### Verification API
