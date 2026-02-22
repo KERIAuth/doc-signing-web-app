@@ -131,16 +131,21 @@ const App: React.FC = () => {
     setPending(true);
     setIsAttestationIssued(false);
     try {
-      let schemaSaid = 'ENDcMNUZjag27T_GTxiCmB2kYstg_kqipqz39906E_FD';
-      // Todo: remove digestAlgo 
-      let credData = { digest: dataDigest, digestAlgo: 'SHA-256' };
       if (!extensionClient) {
         throw new Error('Extension client not initialized');
       }
-      if (!authorizeResult) {
-        handleAuthorize()
-        throw new Error('Authorization required');
+
+      // Authorize inline if not already done
+      let authResult = authorizeResult;
+      if (!authResult) {
+        authResult = await extensionClient.authorize({ message: `Message ${Date.now()}` });
+        setAuthorizeResult(authResult);
       }
+
+      // Todo: remove digestAlgo
+      const schemaSaid = 'ENDcMNUZjag27T_GTxiCmB2kYstg_kqipqz39906E_FD';
+      const credData = { digest: dataDigest, digestAlgo: 'SHA-256' };
+
       const result = await extensionClient.createDataAttestationCredential({
         credData: credData,
         schemaSaid: schemaSaid
